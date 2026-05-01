@@ -17,6 +17,8 @@ Route::get('/documentos/{slug}', [DocumentController::class, 'show'])->name('doc
 Route::get('/documentos/{slug}/download/{versionId?}', [DocumentController::class, 'download'])->name('documents.download');
 
 Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda');
+Route::get('/agenda/feed', [AgendaController::class, 'feed'])->name('agenda.feed');
+Route::get('/agenda/{slug}.ics', [AgendaController::class, 'ics'])->name('agenda.ics');
 
 Route::view('/contratos', 'site.placeholder', ['titulo' => 'Contratos'])->name('contratos');
 Route::view('/transparencia', 'site.placeholder', ['titulo' => 'Transparência'])->name('transparencia');
@@ -28,9 +30,9 @@ Route::view('/sobre', 'site.placeholder', ['titulo' => 'Sobre'])->name('sobre');
 Route::view('/indicadores', 'site.placeholder', ['titulo' => 'Indicadores'])->name('indicadores');
 Route::view('/contato', 'site.placeholder', ['titulo' => 'Contato'])->name('contato');
 Route::redirect('/fale-conosco', '/contato');
-Route::view('/equipe', 'site.placeholder', ['titulo' => 'Equipe'])->name('equipe');
-Route::view('/pessoas', 'site.placeholder', ['titulo' => 'Pessoas'])->name('pessoas');
-Route::view('/organograma', 'site.placeholder', ['titulo' => 'Organograma'])->name('organograma');
+Route::get('/pessoas', [\App\Http\Controllers\Site\PeopleController::class, 'index'])->name('pessoas');
+Route::get('/organograma', [\App\Http\Controllers\Site\PeopleController::class, 'chart'])->name('organograma');
+Route::redirect('/equipe', '/pessoas');
 Route::view('/privacidade', 'site.placeholder', ['titulo' => 'Política de privacidade'])->name('privacidade');
 Route::view('/lgpd', 'site.placeholder', ['titulo' => 'Encarregado de dados (DPO)'])->name('lgpd');
 Route::view('/acessibilidade', 'site.placeholder', ['titulo' => 'Acessibilidade'])->name('acessibilidade');
