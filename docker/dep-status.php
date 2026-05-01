@@ -12,7 +12,7 @@ echo "Created: {$d->created_at}\n";
 echo "Logs (last 30 lines):\n";
 
 $logs = is_array($d->logs) ? $d->logs : (json_decode($d->logs, true) ?? []);
-$last = array_slice($logs, -30);
+$last = array_slice($logs, -80);
 foreach ($last as $l) {
     echo "[" . ($l['type'] ?? '') . "] " . ($l['output'] ?? '') . "\n";
 }

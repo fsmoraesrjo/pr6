@@ -54,7 +54,6 @@
     </div>
     <div class="container hero__inner">
         <div class="hero__content">
-            <span class="hero__eyebrow">Universidade do Estado do Rio de Janeiro</span>
             <h1 id="hero-title" class="hero__title">
                 Planejar.<br>Gerir.<br>
                 <span class="hero__title-accent">Transformar.</span>
