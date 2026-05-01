@@ -27,7 +27,8 @@ Route::get('/servicos', [ServiceController::class, 'index'])->name('services.ind
 Route::get('/servicos/{slug}', [ServiceController::class, 'show'])->name('services.show');
 
 Route::view('/sobre', 'site.placeholder', ['titulo' => 'Sobre'])->name('sobre');
-Route::view('/indicadores', 'site.placeholder', ['titulo' => 'Indicadores'])->name('indicadores');
+Route::get('/indicadores', [\App\Http\Controllers\Site\IndicatorController::class, 'index'])->name('indicadores');
+Route::get('/indicadores/{slug}', [\App\Http\Controllers\Site\IndicatorController::class, 'show'])->name('indicadores.show');
 Route::view('/contato', 'site.placeholder', ['titulo' => 'Contato'])->name('contato');
 Route::redirect('/fale-conosco', '/contato');
 Route::get('/pessoas', [\App\Http\Controllers\Site\PeopleController::class, 'index'])->name('pessoas');

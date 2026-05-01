@@ -1,0 +1,286 @@
+/* ========== Painel de indicadores ========== */
+.indicators-page { padding: clamp(2rem, 5vw, 4rem) 0; }
+
+.indicators-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.indicator-card {
+    background: var(--paper-elev);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    color: var(--ink);
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+.indicator-card::before {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 4px;
+    background: var(--accent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .35s var(--ease);
+}
+.indicator-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px color-mix(in srgb, var(--accent) 18%, transparent);
+    border-color: var(--accent);
+}
+.indicator-card:hover::before { transform: scaleX(1); }
+
+.indicator-card header {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: .5rem;
+    font-size: 11px;
+}
+.indicator-card__tenant {
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: var(--accent);
+    padding: .15rem .55rem;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+}
+.indicator-card__category {
+    color: var(--ink-mute);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+}
+.indicator-card__variation {
+    margin-left: auto;
+    font-size: 12px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: .15rem;
+    padding: .15rem .55rem;
+    border-radius: 999px;
+}
+.indicator-card__variation.is-up { color: #15803D; background: rgba(21,128,61,.12); }
+.indicator-card__variation.is-down { color: #B91C1C; background: rgba(185,28,28,.12); }
+
+.indicator-card h2 {
+    font-family: var(--font-display);
+    font-size: 1.05rem; font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -.01em;
+    color: var(--ink);
+}
+.indicator-card__value {
+    display: flex; align-items: baseline; gap: .35rem;
+    margin-top: auto;
+}
+.indicator-card__value strong {
+    font-family: var(--font-display);
+    font-size: 2.2rem; font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -.03em;
+    line-height: 1;
+}
+.indicator-card__value span {
+    font-size: .9rem; font-weight: 700; color: var(--accent);
+}
+.indicator-card__bar {
+    height: 8px;
+    background: var(--paper-2);
+    border-radius: 999px;
+    overflow: hidden;
+}
+.indicator-card__bar div {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #fff));
+    border-radius: 999px;
+    transition: width .8s var(--ease);
+}
+.indicator-card__spark { min-height: 60px; }
+.indicator-card small {
+    font-size: 11.5px; color: var(--ink-mute);
+    line-height: 1.4;
+}
+
+/* Detalhe do indicador */
+.indicator-detail { padding: clamp(2rem, 5vw, 4rem) 0; }
+.indicator-detail__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 2.5rem;
+    align-items: start;
+}
+@media (max-width: 900px) {
+    .indicator-detail__inner { grid-template-columns: 1fr; }
+}
+
+.indicator-summary {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, var(--paper-elev)), var(--paper-elev));
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) auto auto;
+    gap: 2rem;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+}
+@media (max-width: 760px) {
+    .indicator-summary { grid-template-columns: 1fr; gap: 1rem; }
+}
+
+.indicator-summary__big {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 4.5rem);
+    font-weight: 800;
+    color: var(--accent-deep);
+    letter-spacing: -.03em;
+    line-height: 1;
+    display: inline-block;
+}
+.indicator-summary__big small {
+    font-size: .35em;
+    color: var(--accent);
+    margin-left: .25rem;
+    font-weight: 700;
+}
+[data-theme="dark"] .indicator-summary__big { color: var(--accent); }
+.indicator-summary__period {
+    display: block;
+    margin-top: .5rem;
+    font-size: 13px; color: var(--ink-soft);
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.indicator-summary__variation {
+    text-align: center;
+    padding: .85rem 1.25rem;
+    border-radius: var(--radius-md);
+    background: var(--paper-2);
+}
+.indicator-summary__variation.is-up { color: #15803D; }
+.indicator-summary__variation.is-down { color: #B91C1C; }
+.indicator-summary__arrow { font-size: 1.5rem; line-height: 1; display: block; }
+.indicator-summary__variation strong { display: block; font-size: 1.5rem; font-family: var(--font-display); }
+.indicator-summary__variation small { font-size: 11px; color: var(--ink-mute); display: block; margin-top: .15rem; }
+
+.indicator-summary__goal {
+    text-align: right;
+    min-width: 180px;
+}
+.indicator-summary__goal > span {
+    font-size: 11px; font-weight: 700;
+    color: var(--ink-mute);
+    text-transform: uppercase; letter-spacing: .12em;
+}
+.indicator-summary__goal > strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.5rem; font-weight: 800;
+    color: var(--ink);
+    margin: .25rem 0 .5rem;
+}
+.indicator-summary__bar {
+    height: 6px;
+    background: var(--paper-2);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: .25rem;
+}
+.indicator-summary__bar div {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-deep));
+    border-radius: 999px;
+}
+.indicator-summary__goal > small { font-size: 11px; color: var(--ink-mute); }
+
+.indicator-chart {
+    background: var(--paper-elev);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2.5rem;
+}
+
+.indicator-detail__section-title {
+    font-size: 1.25rem; font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -.01em;
+}
+
+.indicator-table-wrapper {
+    overflow-x: auto;
+    background: var(--paper-elev);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+}
+.indicator-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.indicator-table th, .indicator-table td {
+    padding: .85rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+}
+.indicator-table th {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: var(--ink-mute);
+    background: var(--paper-2);
+}
+.indicator-table tr:last-child td { border-bottom: 0; }
+.indicator-table__progress {
+    display: inline-block;
+    width: 80px; height: 6px;
+    background: var(--paper-2);
+    border-radius: 999px;
+    overflow: hidden;
+    vertical-align: middle;
+    margin-right: .5rem;
+    position: relative;
+}
+.indicator-table__progress::after {
+    content: ""; position: absolute; inset: 0;
+    width: var(--p);
+    background: var(--accent);
+    border-radius: 999px;
+}
+
+.indicator-detail__side {
+    display: flex; flex-direction: column; gap: 1rem;
+    position: sticky; top: 180px;
+}
+@media (max-width: 900px) { .indicator-detail__side { position: static; } }
+
+.indicator-detail__card {
+    background: var(--paper-elev);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent, var(--pr6-primary));
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+}
+.indicator-detail__card small {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .12em;
+    color: var(--ink-mute);
+    display: block; margin-bottom: .35rem;
+}
+.indicator-detail__card strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.05rem; font-weight: 700;
+    margin-bottom: .25rem;
+}
+.indicator-detail__card p { font-size: 13px; color: var(--ink-soft); }
+.indicator-detail__related { display: flex; flex-direction: column; gap: .5rem; margin-top: .5rem; }
+.indicator-detail__related a {
+    color: var(--ink); font-size: 13.5px;
+    padding: .35rem .5rem;
+    border-radius: 6px;
+    transition: background .2s, color .2s;
+}
+.indicator-detail__related a:hover { background: var(--paper-2); color: var(--pr6-primary); }
