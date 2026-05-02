@@ -16,14 +16,27 @@ class SitemapController extends Controller
 {
     public function index()
     {
-        $isProd = app()->environment('production');
+        // Detecta qual conjunto de domínios usar baseado no host real da request
+        $currentHost = request()->getHost();
+        $useProd = false;
+        $rootTenant = Tenant::where('is_root', true)->first();
+        if ($rootTenant) {
+            // Se o host bate com domain_prod ou termina com ".pr6.uerj.br", usa prod
+            if ($rootTenant->domain_prod && (
+                $currentHost === $rootTenant->domain_prod ||
+                str_ends_with($currentHost, '.' . $rootTenant->domain_prod)
+            )) {
+                $useProd = true;
+            }
+        }
+
+        $scheme = request()->isSecure() ? 'https' : 'http';
         $tenants = Tenant::where('is_active', true)->orderBy('order')->get();
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $xml .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
         foreach ($tenants as $t) {
-            $domain = $isProd ? ($t->domain_prod ?: $t->domain_dev) : $t->domain_dev;
-            $scheme = $isProd ? 'https' : 'http';
+            $domain = $useProd ? ($t->domain_prod ?: $t->domain_dev) : $t->domain_dev;
             $xml .= "  <sitemap>\n";
             $xml .= "    <loc>{$scheme}://{$domain}/sitemap.xml</loc>\n";
             $xml .= "    <lastmod>" . now()->toAtomString() . "</lastmod>\n";
@@ -39,12 +52,8 @@ class SitemapController extends Controller
 
     public function __invoke(TenantManager $manager)
     {
-        $tenant = $manager->current();
-        // Em produção: https://pr6.lumislabs.com.br (sem path).
-        // Em dev: usar request->getSchemeAndHttpHost preserva 127.0.0.1:5183.
-        $baseUrl = app()->environment('production')
-            ? 'https://' . ($tenant->domain_prod ?: $tenant->domain_dev)
-            : request()->getSchemeAndHttpHost();
+        // Usa o host real da requisição — funciona igual em dev, homolog e produção
+        $baseUrl = request()->getSchemeAndHttpHost();
         $now = now()->toAtomString();
 
         $urls = [];
@@ -174,9 +183,7 @@ class SitemapController extends Controller
     public function robots(TenantManager $manager)
     {
         $tenant = $manager->current();
-        $baseUrl = app()->environment('production')
-            ? 'https://' . ($tenant->domain_prod ?: $tenant->domain_dev)
-            : request()->getSchemeAndHttpHost();
+        $baseUrl = request()->getSchemeAndHttpHost();
 
         $body = "User-agent: *\n";
         $body .= "Allow: /\n";
