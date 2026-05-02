@@ -6,9 +6,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{{ $metaDescription ?? ($tenant?->description ?? config('app.name')) }}">
+    @php
+        $pageTitle = trim((string) View::getSection('title')) ?: ($tenant?->short_name . ' UERJ');
+        $pageDesc = $metaDescription ?? ($tenant?->description ?? 'Pró-Reitoria de Planejamento e Gestão da UERJ');
+        $pageImage = $metaImage ?? asset('assets/hero-back.png');
+        $pageUrl = url()->current();
+        $siteName = $tenant?->short_name ? $tenant->short_name . ' UERJ' : 'PR-6 UERJ';
+    @endphp
+    <meta name="description" content="{{ $pageDesc }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', $tenant?->short_name . ' UERJ')</title>
+    <link rel="canonical" href="{{ $pageUrl }}">
+    <title>{{ $pageTitle }}</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="{{ $siteName }}">
+    <meta property="og:url" content="{{ $pageUrl }}">
+    <meta property="og:title" content="{{ $pageTitle }}">
+    <meta property="og:description" content="{{ $pageDesc }}">
+    <meta property="og:image" content="{{ $pageImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $pageTitle }}">
+    <meta name="twitter:description" content="{{ $pageDesc }}">
+    <meta name="twitter:image" content="{{ $pageImage }}">
+
+    <meta name="theme-color" content="{{ $tenant && !$tenant->is_root ? $tenant->accent_color : '#B92828' }}">
+    <link rel="icon" href="{{ asset('assets/logo-pr6-cor.png') }}" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">

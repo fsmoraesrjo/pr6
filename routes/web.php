@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
 
+Route::get('/sitemap.xml', \App\Http\Controllers\Site\SitemapController::class)->name('sitemap');
+Route::get('/robots.txt', [\App\Http\Controllers\Site\SitemapController::class, 'robots'])->name('robots');
+
 Route::get('/noticias', [NewsController::class, 'index'])->name('news.index');
 Route::get('/noticias/{slug}', [NewsController::class, 'show'])->name('news.show');
 
