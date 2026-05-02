@@ -56,6 +56,43 @@
     <link rel="stylesheet" href="{{ asset('assets/site-content.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-lgpd.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-a11y.css') }}?v=1">
+
+    {{-- JSON-LD: Organization + WebSite (todas as páginas) --}}
+    @php
+        $orgJsonLd = [
+            '@context' => 'https://schema.org',
+            '@type' => 'GovernmentOrganization',
+            'name' => $tenant?->full_name ?? 'Pró-Reitoria de Planejamento e Gestão da UERJ',
+            'alternateName' => $tenant?->short_name ?? 'PR-6',
+            'url' => request()->getSchemeAndHttpHost(),
+            'logo' => asset('assets/logo-pr6-cor.png'),
+            'parentOrganization' => [
+                '@type' => 'CollegeOrUniversity',
+                'name' => 'Universidade do Estado do Rio de Janeiro',
+                'url' => 'https://www.uerj.br',
+            ],
+            'address' => [
+                '@type' => 'PostalAddress',
+                'streetAddress' => 'Rua São Francisco Xavier, 524',
+                'addressLocality' => 'Rio de Janeiro',
+                'addressRegion' => 'RJ',
+                'postalCode' => '20550-013',
+                'addressCountry' => 'BR',
+            ],
+            'sameAs' => ['https://www.uerj.br'],
+        ];
+        $siteJsonLd = [
+            '@context' => 'https://schema.org',
+            '@type' => 'WebSite',
+            'name' => $siteName,
+            'url' => request()->getSchemeAndHttpHost(),
+            'inLanguage' => 'pt-BR',
+            'publisher' => ['@type' => 'GovernmentOrganization', 'name' => 'PR-6 UERJ'],
+        ];
+    @endphp
+    <script type="application/ld+json">@json($orgJsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)</script>
+    <script type="application/ld+json">@json($siteJsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)</script>
+
     @stack('head')
 </head>
 <body @class(['vertical-theme' => $tenant && !$tenant->is_root])>

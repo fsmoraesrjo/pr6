@@ -2,6 +2,50 @@
 
 @section('title', $item->title)
 
+@push('head')
+@php
+    $articleLd = [
+        '@context' => 'https://schema.org',
+        '@type' => 'NewsArticle',
+        'headline' => $item->title,
+        'description' => $item->summary,
+        'datePublished' => $item->published_at?->toAtomString(),
+        'dateModified' => $item->updated_at?->toAtomString(),
+        'image' => $item->cover_path ? asset('storage/' . $item->cover_path) : asset('assets/hero-back.png'),
+        'author' => $item->author ? [
+            '@type' => 'Person',
+            'name' => $item->author->name,
+        ] : [
+            '@type' => 'Organization',
+            'name' => $item->tenant?->short_name ?? 'PR-6',
+        ],
+        'publisher' => [
+            '@type' => 'GovernmentOrganization',
+            'name' => $item->tenant?->full_name ?? 'PR-6 UERJ',
+            'logo' => [
+                '@type' => 'ImageObject',
+                'url' => asset('assets/logo-pr6-cor.png'),
+            ],
+        ],
+        'mainEntityOfPage' => [
+            '@type' => 'WebPage',
+            '@id' => url()->current(),
+        ],
+    ];
+    $breadcrumbLd = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Início', 'item' => url('/')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'Notícias', 'item' => url('/noticias')],
+            ['@type' => 'ListItem', 'position' => 3, 'name' => $item->title, 'item' => url()->current()],
+        ],
+    ];
+@endphp
+<script type="application/ld+json">@json($articleLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)</script>
+<script type="application/ld+json">@json($breadcrumbLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)</script>
+@endpush
+
 @php
     $accent = $item->tenant?->accent_color ?? '#B92828';
     $accentDeep = $item->tenant?->accent_deep_color ?? '#8E1B1B';

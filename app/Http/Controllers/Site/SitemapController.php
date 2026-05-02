@@ -8,11 +8,35 @@ use App\Models\Event;
 use App\Models\Indicator;
 use App\Models\News;
 use App\Models\Service;
+use App\Models\Tenant;
 use App\Tenancy\TenantManager;
 use Illuminate\Support\Carbon;
 
 class SitemapController extends Controller
 {
+    public function index()
+    {
+        $isProd = app()->environment('production');
+        $tenants = Tenant::where('is_active', true)->orderBy('order')->get();
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+        foreach ($tenants as $t) {
+            $domain = $isProd ? ($t->domain_prod ?: $t->domain_dev) : $t->domain_dev;
+            $scheme = $isProd ? 'https' : 'http';
+            $xml .= "  <sitemap>\n";
+            $xml .= "    <loc>{$scheme}://{$domain}/sitemap.xml</loc>\n";
+            $xml .= "    <lastmod>" . now()->toAtomString() . "</lastmod>\n";
+            $xml .= "  </sitemap>\n";
+        }
+        $xml .= '</sitemapindex>';
+
+        return response($xml, 200, [
+            'Content-Type' => 'application/xml; charset=utf-8',
+            'Cache-Control' => 'public, max-age=3600',
+        ]);
+    }
+
     public function __invoke(TenantManager $manager)
     {
         $tenant = $manager->current();
@@ -160,6 +184,9 @@ class SitemapController extends Controller
         $body .= "Disallow: /lgpd/consent\n";
         $body .= "\n";
         $body .= "Sitemap: " . $baseUrl . "/sitemap.xml\n";
+        if ($tenant && $tenant->is_root) {
+            $body .= "Sitemap: " . $baseUrl . "/sitemap-index.xml\n";
+        }
 
         return response($body, 200, [
             'Content-Type' => 'text/plain; charset=utf-8',
