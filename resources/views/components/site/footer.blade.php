@@ -30,10 +30,19 @@
         <div class="footer__col">
             <h4>Transparência</h4>
             <ul>
+                <li><a href="/documentos">Documentos</a></li>
+                <li><a href="/agenda">Agenda</a></li>
                 <li><a href="/indicadores">Indicadores</a></li>
+                <li><a href="/pessoas">Pessoas</a></li>
+            </ul>
+        </div>
+        <div class="footer__col">
+            <h4>LGPD e privacidade</h4>
+            <ul>
                 <li><a href="/privacidade">Política de privacidade</a></li>
-                <li><a href="/lgpd">Encarregado de dados</a></li>
+                <li><a href="/lgpd">Direitos do titular</a></li>
                 <li><a href="/acessibilidade">Acessibilidade</a></li>
+                <li><a href="mailto:dpo@uerj.br">Encarregado (DPO): dpo@uerj.br</a></li>
             </ul>
         </div>
         <div class="footer__col">

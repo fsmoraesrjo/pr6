@@ -117,19 +117,53 @@
         }
     });
 
-    // LGPD banner -----------------------------------------------------
-    const lgpd = document.getElementById('lgpd');
-    const lgpdAccept = document.getElementById('lgpd-accept');
-    const lgpdDecline = document.getElementById('lgpd-decline');
-    const lgpdSet = localStorage.getItem('pr6-lgpd');
-    if (lgpd && !lgpdSet) {
-        setTimeout(() => lgpd.classList.add('is-visible'), 1200);
+    // LGPD banner — 3 níveis -----------------------------------------
+    const banner = document.getElementById('lgpd-banner');
+    if (banner) {
+        const stored = localStorage.getItem('pr6-lgpd-v2');
+        if (!stored) setTimeout(() => banner.removeAttribute('hidden'), 800);
+
+        const choices = banner.querySelector('[data-lgpd-choices]');
+        const btnCustomize = banner.querySelector('[data-lgpd-customize]');
+        const btnEssential = banner.querySelector('[data-lgpd-essential-only]');
+        const btnAcceptAll = banner.querySelector('[data-lgpd-accept-all]');
+        const btnSaveCustom = banner.querySelector('[data-lgpd-save-custom]');
+
+        function getCsrf() {
+            return document.querySelector('meta[name="csrf-token"]')?.content || '';
+        }
+
+        async function send(consents) {
+            try {
+                await fetch('/lgpd/consent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': getCsrf(),
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({ consents }),
+                });
+            } catch (e) {}
+            localStorage.setItem('pr6-lgpd-v2', JSON.stringify({ consents, at: Date.now() }));
+            banner.setAttribute('hidden', '');
+        }
+
+        btnCustomize?.addEventListener('click', () => {
+            choices.removeAttribute('hidden');
+            btnCustomize.setAttribute('hidden', '');
+            btnSaveCustom.removeAttribute('hidden');
+        });
+        btnEssential?.addEventListener('click', () => send({ essential: true, analytics: false, marketing: false }));
+        btnAcceptAll?.addEventListener('click', () => send({ essential: true, analytics: true, marketing: true }));
+        btnSaveCustom?.addEventListener('click', () => {
+            const consents = {
+                essential: true,
+                analytics: choices.querySelector('input[name="analytics"]').checked,
+                marketing: choices.querySelector('input[name="marketing"]').checked,
+            };
+            send(consents);
+        });
     }
-    const closeLgpd = (choice) => {
-        localStorage.setItem('pr6-lgpd', choice);
-        if (lgpd) lgpd.classList.remove('is-visible');
-    };
-    if (lgpdAccept) lgpdAccept.addEventListener('click', () => closeLgpd('all'));
-    if (lgpdDecline) lgpdDecline.addEventListener('click', () => closeLgpd('essential'));
 
 })();

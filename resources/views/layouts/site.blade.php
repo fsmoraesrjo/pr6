@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="{{ $metaDescription ?? ($tenant?->description ?? config('app.name')) }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', $tenant?->short_name . ' UERJ')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('assets/site-agenda-people.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-indicators.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-content.css') }}?v=1">
+    <link rel="stylesheet" href="{{ asset('assets/site-lgpd.css') }}?v=1">
     @stack('head')
 </head>
 <body @class(['vertical-theme' => $tenant && !$tenant->is_root])>
@@ -33,7 +35,7 @@
 <x-site.footer :tenant="$tenant" />
 <x-site.lgpd-banner />
 
-<script src="{{ asset('assets/site.js') }}?v=2"></script>
+<script src="{{ asset('assets/site.js') }}?v=3"></script>
 @stack('scripts')
 </body>
 </html>
