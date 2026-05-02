@@ -51,7 +51,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets/site.css') }}?v=13">
     <link rel="stylesheet" href="{{ asset('assets/site-pages.css') }}?v=6">
-    <link rel="stylesheet" href="{{ asset('assets/site-agenda-people.css') }}?v=1">
+    <link rel="stylesheet" href="{{ asset('assets/site-agenda-people.css') }}?v=2">
     <link rel="stylesheet" href="{{ asset('assets/site-indicators.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-content.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-lgpd.css') }}?v=1">

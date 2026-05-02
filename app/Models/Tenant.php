@@ -55,11 +55,21 @@ class Tenant extends Model
             return url('/?tenant=' . $this->slug);
         }
 
-        $domain = app()->environment('production')
-            ? $this->domain_prod
-            : $this->domain_dev;
+        // Decide pelo host atual: enquanto o DNS *.pr6.uerj.br nao estiver liberado,
+        // o sistema roda em *.pr6.lumislabs.com.br (mesmo em APP_ENV=production).
+        // Linkar para o dominio "real" antes da hora gera 404 para o usuario.
+        $rootProd = config('pr6.root_domain_prod', 'pr6.uerj.br');
+        $rootDev  = config('pr6.root_domain', 'pr6.lumislabs.com.br');
+        $host = request()?->getHost() ?? '';
 
-        $scheme = app()->environment('production') ? 'https' : 'http';
+        $emProd = $host === $rootProd || str_ends_with($host, '.' . $rootProd);
+
+        $domain = $emProd
+            ? ($this->domain_prod ?: $this->domain_dev)
+            : ($this->domain_dev ?: $this->domain_prod);
+
+        // Em ambos os ambientes hospedados (lumislabs e uerj) usamos HTTPS via Traefik.
+        $scheme = request()?->isSecure() ? 'https' : (app()->environment('local') ? 'http' : 'https');
 
         return $scheme . '://' . $domain;
     }
