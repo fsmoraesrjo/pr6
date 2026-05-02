@@ -117,6 +117,91 @@
         }
     });
 
+    // Acessibilidade — A+/A-/contraste/sublinhar/fonte legível ---------
+    const A11Y_KEY = 'pr6-a11y';
+    const a11ySettings = (() => {
+        try { return JSON.parse(localStorage.getItem(A11Y_KEY)) || {}; }
+        catch (e) { return {}; }
+    })();
+
+    function applyA11y() {
+        const html = document.documentElement;
+        const fontScale = a11ySettings.fontScale || 1;
+        html.style.setProperty('--a11y-font-scale', fontScale);
+        html.classList.toggle('a11y-contrast', !!a11ySettings.contrast);
+        html.classList.toggle('a11y-underline', !!a11ySettings.underlineLinks);
+        html.classList.toggle('a11y-readable', !!a11ySettings.readableFont);
+    }
+
+    function persistA11y() {
+        localStorage.setItem(A11Y_KEY, JSON.stringify(a11ySettings));
+        applyA11y();
+        updateA11yButtonStates();
+    }
+
+    function updateA11yButtonStates() {
+        const map = {
+            'contrast': !!a11ySettings.contrast,
+            'underline-links': !!a11ySettings.underlineLinks,
+            'readable-font': !!a11ySettings.readableFont,
+        };
+        document.querySelectorAll('[data-a11y]').forEach(btn => {
+            const action = btn.dataset.a11y;
+            if (map.hasOwnProperty(action)) {
+                btn.classList.toggle('is-active', map[action]);
+                btn.setAttribute('aria-pressed', map[action] ? 'true' : 'false');
+            }
+        });
+    }
+
+    function handleA11yAction(action) {
+        switch (action) {
+            case 'font-up':
+                a11ySettings.fontScale = Math.min((a11ySettings.fontScale || 1) + 0.1, 1.6);
+                break;
+            case 'font-down':
+                a11ySettings.fontScale = Math.max((a11ySettings.fontScale || 1) - 0.1, 0.85);
+                break;
+            case 'contrast':
+                a11ySettings.contrast = !a11ySettings.contrast;
+                break;
+            case 'underline-links':
+                a11ySettings.underlineLinks = !a11ySettings.underlineLinks;
+                break;
+            case 'readable-font':
+                a11ySettings.readableFont = !a11ySettings.readableFont;
+                break;
+            case 'reset':
+                Object.keys(a11ySettings).forEach(k => delete a11ySettings[k]);
+                document.documentElement.style.removeProperty('--a11y-font-scale');
+                break;
+            case 'open-panel':
+                document.getElementById('a11y-panel')?.removeAttribute('hidden');
+                document.querySelector('[data-a11y="open-panel"]')?.setAttribute('aria-expanded', 'true');
+                document.body.style.overflow = 'hidden';
+                return;
+            case 'close-panel':
+                document.getElementById('a11y-panel')?.setAttribute('hidden', '');
+                document.querySelector('[data-a11y="open-panel"]')?.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+                return;
+        }
+        persistA11y();
+    }
+
+    document.querySelectorAll('[data-a11y]').forEach(btn => {
+        btn.addEventListener('click', () => handleA11yAction(btn.dataset.a11y));
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !document.getElementById('a11y-panel')?.hasAttribute('hidden')) {
+            handleA11yAction('close-panel');
+        }
+    });
+
+    applyA11y();
+    updateA11yButtonStates();
+
     // LGPD banner — 3 níveis -----------------------------------------
     const banner = document.getElementById('lgpd-banner');
     if (banner) {

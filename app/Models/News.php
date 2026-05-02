@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\HasAuditLog;
 use App\Tenancy\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class News extends Model
 {
-    use HasFactory, SoftDeletes, BelongsToTenant;
+    use HasFactory, SoftDeletes, BelongsToTenant, HasAuditLog;
 
     protected $table = 'news';
     protected $guarded = [];

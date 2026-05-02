@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Concerns\HasAuditLog;
 use App\Tenancy\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Indicator extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, HasAuditLog;
 
     protected $guarded = [];
 

@@ -1,0 +1,218 @@
+/* ================================================
+   Acessibilidade — A+/A-/contraste/links/fonte
+   ================================================ */
+
+/* Escala de fonte aplicada ao :root */
+html { font-size: calc(16px * var(--a11y-font-scale, 1)); }
+
+/* Fonte legível para dislexia (Atkinson Hyperlegible — Google Fonts) */
+html.a11y-readable {
+    --font-display: 'Atkinson Hyperlegible', system-ui, sans-serif;
+    --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
+}
+html.a11y-readable body, html.a11y-readable * {
+    letter-spacing: .02em;
+    word-spacing: .04em;
+}
+
+/* Sublinhar todos os links */
+html.a11y-underline a:not(.btn):not(.brand):not(.portal-tab):not(.icon-btn):not(.nav__trigger) {
+    text-decoration: underline !important;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+}
+
+/* Alto contraste — paleta preto/amarelo institucional WCAG AAA */
+html.a11y-contrast {
+    --paper: #000000 !important;
+    --paper-elev: #0A0A0A !important;
+    --paper-2: #1A1A1A !important;
+    --ink: #FFFFFF !important;
+    --ink-soft: #FFFF00 !important;
+    --ink-mute: #FFFFAA !important;
+    --line: #FFFF00 !important;
+    --pr6-primary: #FFFF00 !important;
+    --pr6-primary-dark: #FFEE00 !important;
+    --pr6-primary-light: #FFFF66 !important;
+    --pr6-accent: #FFFF00 !important;
+    --pr6-accent-soft: #2A2A00 !important;
+    --pr6-gold: #FFFF00 !important;
+    --shadow-sm: 0 0 0 1px #FFFF00 !important;
+    --shadow-md: 0 0 0 2px #FFFF00 !important;
+    --shadow-lg: 0 0 0 2px #FFFF00 !important;
+    --shadow-xl: 0 0 0 3px #FFFF00 !important;
+    background: #000 !important;
+    color: #fff !important;
+}
+html.a11y-contrast body {
+    background: #000 !important;
+    color: #fff !important;
+    background-image: none !important;
+}
+html.a11y-contrast img,
+html.a11y-contrast .page-head::before,
+html.a11y-contrast .hero__bg,
+html.a11y-contrast .hero__gradient,
+html.a11y-contrast .hero__shape,
+html.a11y-contrast .hero__grid,
+html.a11y-contrast .news__cover,
+html.a11y-contrast .article__head,
+html.a11y-contrast .indicator-summary,
+html.a11y-contrast .ouvidoria__inner,
+html.a11y-contrast .about-cta {
+    background-image: none !important;
+    background: #000 !important;
+    filter: none !important;
+}
+html.a11y-contrast .page-head::after { background: rgba(0,0,0,.6) !important; }
+html.a11y-contrast a { color: #FFFF00 !important; text-decoration: underline !important; }
+html.a11y-contrast a:hover { color: #FFFFFF !important; }
+html.a11y-contrast .btn--primary {
+    background: #FFFF00 !important;
+    color: #000 !important;
+    border: 2px solid #FFFF00 !important;
+}
+html.a11y-contrast .btn--secondary,
+html.a11y-contrast .btn--ghost,
+html.a11y-contrast .btn--white-outline {
+    background: #000 !important;
+    color: #FFFF00 !important;
+    border: 2px solid #FFFF00 !important;
+}
+html.a11y-contrast .uerj-bar { background: #000 !important; border-bottom: 2px solid #FFFF00 !important; }
+html.a11y-contrast .uerj-bar__brand,
+html.a11y-contrast .uerj-bar__links a,
+html.a11y-contrast .uerj-bar__tools button {
+    color: #FFFF00 !important;
+}
+html.a11y-contrast .header { background: #000 !important; border-bottom: 2px solid #FFFF00 !important; }
+html.a11y-contrast .nav a, html.a11y-contrast .nav__trigger { color: #FFFF00 !important; }
+html.a11y-contrast .nav a.is-active, html.a11y-contrast .nav__trigger.is-active { background: #FFFF00 !important; color: #000 !important; }
+html.a11y-contrast .footer { background: #000 !important; border-top: 2px solid #FFFF00 !important; }
+html.a11y-contrast .footer__col h4, html.a11y-contrast .footer__brand p,
+html.a11y-contrast .footer__col a, html.a11y-contrast .footer__col address { color: #FFFF00 !important; }
+
+/* Estado ativo dos botões a11y */
+[data-a11y].is-active {
+    background: var(--pr6-primary) !important;
+    color: #fff !important;
+}
+
+/* Botão recém-clicado dá feedback */
+[data-a11y]:focus-visible {
+    outline: 3px solid var(--pr6-gold);
+    outline-offset: 2px;
+}
+
+/* Painel modal de acessibilidade */
+.a11y-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(15, 23, 42, .55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: a11yFadeIn .25s var(--ease);
+}
+.a11y-panel[hidden] { display: none; }
+@keyframes a11yFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.a11y-panel__inner {
+    position: relative;
+    background: var(--paper-elev);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    max-width: 540px;
+    width: 100%;
+    box-shadow: var(--shadow-xl);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.a11y-panel__close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--paper-2);
+    color: var(--ink-soft);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    border: 0;
+}
+.a11y-panel__close:hover { background: var(--pr6-accent-soft); color: var(--pr6-primary); }
+.a11y-panel__close svg { width: 16px; height: 16px; }
+
+.a11y-panel h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin-bottom: .5rem;
+}
+.a11y-panel > .a11y-panel__inner > p {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 1.5rem;
+}
+
+.a11y-panel__options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: .75rem;
+    margin-bottom: 1.5rem;
+}
+.a11y-panel__options button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    padding: 1.25rem 1rem;
+    background: var(--paper-2);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-md);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 13px;
+    transition: all .2s var(--ease);
+    cursor: pointer;
+    text-align: center;
+}
+.a11y-panel__options button > span:first-child {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--pr6-primary);
+    line-height: 1;
+}
+.a11y-panel__options button:hover {
+    border-color: var(--pr6-primary);
+    background: var(--pr6-accent-soft);
+}
+.a11y-panel__options button.is-active {
+    background: var(--pr6-primary) !important;
+    border-color: var(--pr6-primary);
+    color: #fff !important;
+}
+.a11y-panel__options button.is-active > span:first-child { color: #fff !important; }
+.a11y-panel__reset { grid-column: 1 / -1; background: transparent !important; border-style: dashed !important; }
+
+.a11y-panel__legal {
+    font-size: 12.5px !important;
+    color: var(--ink-mute) !important;
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--line);
+}
+.a11y-panel__legal a { color: var(--pr6-primary); font-weight: 600; }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}

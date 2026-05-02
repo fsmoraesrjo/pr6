@@ -11,13 +11,14 @@
     <title>@yield('title', $tenant?->short_name . ' UERJ')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/site.css') }}?v=12">
     <link rel="stylesheet" href="{{ asset('assets/site-pages.css') }}?v=5">
     <link rel="stylesheet" href="{{ asset('assets/site-agenda-people.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-indicators.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-content.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-lgpd.css') }}?v=1">
+    <link rel="stylesheet" href="{{ asset('assets/site-a11y.css') }}?v=1">
     @stack('head')
 </head>
 <body @class(['vertical-theme' => $tenant && !$tenant->is_root])>
@@ -35,7 +36,7 @@
 <x-site.footer :tenant="$tenant" />
 <x-site.lgpd-banner />
 
-<script src="{{ asset('assets/site.js') }}?v=3"></script>
+<script src="{{ asset('assets/site.js') }}?v=4"></script>
 @stack('scripts')
 </body>
 </html>

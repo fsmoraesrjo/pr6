@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Concerns\HasAuditLog;
 use App\Tenancy\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
-    use SoftDeletes, BelongsToTenant;
+    use SoftDeletes, BelongsToTenant, HasAuditLog;
 
     protected $guarded = [];
 
