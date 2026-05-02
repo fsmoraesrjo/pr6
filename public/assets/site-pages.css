@@ -10,7 +10,7 @@
 .page-head::before {
     content: "";
     position: absolute; inset: 0;
-    background: url('header-uerj.jpg') center/cover no-repeat;
+    background: url('hero-back.png') center/cover no-repeat;
     z-index: -2;
 }
 .page-head::after {
@@ -18,8 +18,8 @@
     position: absolute; inset: 0;
     background: linear-gradient(110deg,
         rgba(31, 41, 55, .88) 0%,
-        rgba(142, 27, 27, .80) 45%,
-        rgba(185, 40, 40, .55) 100%);
+        rgba(142, 27, 27, .82) 45%,
+        rgba(185, 40, 40, .58) 100%);
     z-index: -1;
 }
 .page-head .container {

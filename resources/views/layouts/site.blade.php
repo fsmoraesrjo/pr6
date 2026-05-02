@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/site.css') }}?v=12">
-    <link rel="stylesheet" href="{{ asset('assets/site-pages.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('assets/site-pages.css') }}?v=5">
     <link rel="stylesheet" href="{{ asset('assets/site-agenda-people.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-indicators.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-content.css') }}?v=1">
