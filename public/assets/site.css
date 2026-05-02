@@ -1288,3 +1288,23 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; letter-spa
     .portal-strip__inner { padding: .5rem var(--gutter); }
     .portal-strip__label, .portal-strip__home { padding-right: .75rem; }
 }
+
+/* ========== Hero por tenant (imagens específicas) ========== */
+html[data-tenant="dirtec"] .hero__gradient {
+    background:
+        linear-gradient(110deg, rgba(31, 41, 55, .82) 0%, rgba(30, 58, 138, .65) 50%, rgba(37, 99, 235, .35) 100%),
+        url('hero-dirtec.webp') center/cover no-repeat;
+}
+html[data-tenant="dirgis"] .hero__gradient {
+    background:
+        linear-gradient(110deg, rgba(31, 41, 55, .82) 0%, rgba(21, 94, 117, .65) 50%, rgba(14, 116, 144, .35) 100%),
+        url('hero-dirgis.webp') center/cover no-repeat;
+}
+
+/* Page-head também usa imagem do tenant */
+html[data-tenant="dirtec"] .page-head::before {
+    background: url('hero-dirtec.webp') center/cover no-repeat;
+}
+html[data-tenant="dirgis"] .page-head::before {
+    background: url('hero-dirgis.webp') center/cover no-repeat;
+}

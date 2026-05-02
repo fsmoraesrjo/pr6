@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light"
+<html lang="pt-BR" data-theme="light" data-tenant="{{ $tenant?->slug ?? 'pr6' }}"
     @if($tenant && !$tenant->is_root)
         style="--accent:{{ $tenant->accent_color }};--accent-soft:{{ $tenant->accent_soft_color }};--accent-deep:{{ $tenant->accent_deep_color }}"
     @endif>
@@ -43,13 +43,20 @@
 
     {{-- Preload da imagem do hero (LCP) --}}
     @if(request()->is('/'))
-        <link rel="preload" as="image" href="{{ asset('assets/hero-back.webp') }}" type="image/webp" fetchpriority="high">
+        @php
+            $heroImage = match($tenant?->slug) {
+                'dirtec' => 'assets/hero-dirtec.webp',
+                'dirgis' => 'assets/hero-dirgis.webp',
+                default => 'assets/hero-back.webp',
+            };
+        @endphp
+        <link rel="preload" as="image" href="{{ asset($heroImage) }}" type="image/webp" fetchpriority="high">
     @endif
 
     {{-- Fonts (display=swap pra evitar FOIT) --}}
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('assets/site.css') }}?v=13">
+    <link rel="stylesheet" href="{{ asset('assets/site.css') }}?v=14">
     <link rel="stylesheet" href="{{ asset('assets/site-pages.css') }}?v=6">
     <link rel="stylesheet" href="{{ asset('assets/site-agenda-people.css') }}?v=2">
     <link rel="stylesheet" href="{{ asset('assets/site-indicators.css') }}?v=1">
