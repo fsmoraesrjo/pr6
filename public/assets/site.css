@@ -1300,6 +1300,11 @@ html[data-tenant="dirgis"] .hero__gradient {
         linear-gradient(110deg, rgba(31, 41, 55, .82) 0%, rgba(21, 94, 117, .65) 50%, rgba(14, 116, 144, .35) 100%),
         url('hero-dirgis.webp') center/cover no-repeat;
 }
+html[data-tenant="dirplag"] .hero__gradient {
+    background:
+        linear-gradient(110deg, rgba(31, 41, 55, .82) 0%, rgba(91, 33, 182, .65) 50%, rgba(124, 58, 237, .35) 100%),
+        url('hero-dirplag.webp') center/cover no-repeat;
+}
 
 /* Page-head também usa imagem do tenant */
 html[data-tenant="dirtec"] .page-head::before {
@@ -1307,4 +1312,7 @@ html[data-tenant="dirtec"] .page-head::before {
 }
 html[data-tenant="dirgis"] .page-head::before {
     background: url('hero-dirgis.webp') center/cover no-repeat;
+}
+html[data-tenant="dirplag"] .page-head::before {
+    background: url('hero-dirplag.webp') center/cover no-repeat;
 }

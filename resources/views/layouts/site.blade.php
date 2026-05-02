@@ -47,6 +47,7 @@
             $heroImage = match($tenant?->slug) {
                 'dirtec' => 'assets/hero-dirtec.webp',
                 'dirgis' => 'assets/hero-dirgis.webp',
+                'dirplag' => 'assets/hero-dirplag.webp',
                 default => 'assets/hero-back.webp',
             };
         @endphp
@@ -56,7 +57,7 @@
     {{-- Fonts (display=swap pra evitar FOIT) --}}
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('assets/site.css') }}?v=14">
+    <link rel="stylesheet" href="{{ asset('assets/site.css') }}?v=15">
     <link rel="stylesheet" href="{{ asset('assets/site-pages.css') }}?v=6">
     <link rel="stylesheet" href="{{ asset('assets/site-agenda-people.css') }}?v=2">
     <link rel="stylesheet" href="{{ asset('assets/site-indicators.css') }}?v=1">
