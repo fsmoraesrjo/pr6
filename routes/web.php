@@ -25,8 +25,9 @@ Route::view('/transparencia', 'site.placeholder', ['titulo' => 'Transparência']
 
 Route::get('/servicos', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/servicos/{slug}', [ServiceController::class, 'show'])->name('services.show');
+Route::post('/servicos/{slug}', [ServiceController::class, 'submit'])->name('services.submit');
 
-Route::view('/sobre', 'site.placeholder', ['titulo' => 'Sobre'])->name('sobre');
+Route::get('/sobre', \App\Http\Controllers\Site\AboutController::class)->name('sobre');
 Route::get('/indicadores', [\App\Http\Controllers\Site\IndicatorController::class, 'index'])->name('indicadores');
 Route::get('/indicadores/{slug}', [\App\Http\Controllers\Site\IndicatorController::class, 'show'])->name('indicadores.show');
 Route::view('/contato', 'site.placeholder', ['titulo' => 'Contato'])->name('contato');

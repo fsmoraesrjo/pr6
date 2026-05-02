@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('assets/site-pages.css') }}?v=4">
     <link rel="stylesheet" href="{{ asset('assets/site-agenda-people.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-indicators.css') }}?v=1">
+    <link rel="stylesheet" href="{{ asset('assets/site-content.css') }}?v=1">
     @stack('head')
 </head>
 <body @class(['vertical-theme' => $tenant && !$tenant->is_root])>
