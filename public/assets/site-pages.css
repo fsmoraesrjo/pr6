@@ -10,7 +10,7 @@
 .page-head::before {
     content: "";
     position: absolute; inset: 0;
-    background: url('hero-back.png') center/cover no-repeat;
+    background: url('hero-back.webp') center/cover no-repeat;
     z-index: -2;
 }
 .page-head::after {

@@ -400,13 +400,13 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; letter-spa
     position: absolute; inset: 0;
     background:
         linear-gradient(110deg, rgba(250, 247, 245, .92) 0%, rgba(252, 228, 229, .65) 45%, rgba(245, 145, 150, .35) 100%),
-        url('hero-back.png') center/cover no-repeat;
+        url('hero-back.webp') center/cover no-repeat;
     animation: heroFloat 24s ease-in-out infinite alternate;
 }
 [data-theme="dark"] .hero__gradient {
     background:
         linear-gradient(110deg, rgba(20, 17, 15, .88) 0%, rgba(142, 27, 27, .55) 50%, rgba(31, 27, 24, .85) 100%),
-        url('hero-back.png') center/cover no-repeat;
+        url('hero-back.webp') center/cover no-repeat;
 }
 @keyframes heroFloat {
     0% { transform: scale(1); }
@@ -1162,7 +1162,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; letter-spa
 .vertical-theme .hero__gradient {
     background:
         linear-gradient(110deg, rgba(250, 247, 245, .92) 0%, color-mix(in srgb, var(--accent-soft) 70%, transparent) 45%, color-mix(in srgb, var(--accent) 35%, transparent) 100%),
-        url('hero-back.png') center/cover no-repeat;
+        url('hero-back.webp') center/cover no-repeat;
 }
 .vertical-theme .hero__eyebrow::before {
     background: var(--accent);

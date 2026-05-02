@@ -4,10 +4,10 @@
     <div class="container header__inner header__inner--main">
         <a href="/" class="brand" aria-label="{{ $tenant->short_name }} · {{ $tenant->full_name }}">
             @if($tenant->is_root)
-                <img src="{{ asset('assets/logo-pr6-cor.png') }}" alt="PR-6 · Pró-Reitoria de Planejamento e Gestão"
+                <img src="{{ asset('assets/logo-pr6-cor.webp') }}" alt="PR-6 · Pró-Reitoria de Planejamento e Gestão"
                      class="brand__logo" width="220" height="56" fetchpriority="high" decoding="async">
             @else
-                <img src="{{ asset('assets/logo-pr6-cor.png') }}" alt="PR-6"
+                <img src="{{ asset('assets/logo-pr6-cor.webp') }}" alt="PR-6"
                      class="brand__logo brand__logo--small" width="180" height="44" fetchpriority="high" decoding="async">
                 <span class="brand__divider" aria-hidden="true"></span>
                 <span class="brand__text">

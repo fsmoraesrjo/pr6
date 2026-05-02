@@ -43,14 +43,14 @@
 
     {{-- Preload da imagem do hero (LCP) --}}
     @if(request()->is('/'))
-        <link rel="preload" as="image" href="{{ asset('assets/hero-back.png') }}" fetchpriority="high">
+        <link rel="preload" as="image" href="{{ asset('assets/hero-back.webp') }}" type="image/webp" fetchpriority="high">
     @endif
 
     {{-- Fonts (display=swap pra evitar FOIT) --}}
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('assets/site.css') }}?v=12">
-    <link rel="stylesheet" href="{{ asset('assets/site-pages.css') }}?v=5">
+    <link rel="stylesheet" href="{{ asset('assets/site.css') }}?v=13">
+    <link rel="stylesheet" href="{{ asset('assets/site-pages.css') }}?v=6">
     <link rel="stylesheet" href="{{ asset('assets/site-agenda-people.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-indicators.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-content.css') }}?v=1">
