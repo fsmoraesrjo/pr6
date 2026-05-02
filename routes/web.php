@@ -25,7 +25,7 @@ Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda');
 Route::get('/agenda/feed', [AgendaController::class, 'feed'])->name('agenda.feed');
 Route::get('/agenda/{slug}.ics', [AgendaController::class, 'ics'])->name('agenda.ics');
 
-Route::view('/contratos', 'site.placeholder', ['titulo' => 'Contratos'])->name('contratos');
+Route::view('/contratos', 'site.contratos.index')->name('contratos');
 Route::view('/transparencia', 'site.placeholder', ['titulo' => 'Transparência'])->name('transparencia');
 
 Route::get('/servicos', [ServiceController::class, 'index'])->name('services.index');
