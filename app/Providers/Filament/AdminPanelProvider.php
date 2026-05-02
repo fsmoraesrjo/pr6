@@ -43,7 +43,6 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make('Repositório')->icon('heroicon-o-document-text'),
                 NavigationGroup::make('Estrutura')->icon('heroicon-o-users'),
                 NavigationGroup::make('Transparência')->icon('heroicon-o-chart-bar'),
-                NavigationGroup::make('LGPD')->icon('heroicon-o-shield-check'),
                 NavigationGroup::make('Sistema')->icon('heroicon-o-cog-6-tooth'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

@@ -3,6 +3,7 @@
 return [
     'root_domain' => env('PR6_ROOT_DOMAIN', 'pr6.test'),
     'root_domain_prod' => env('PR6_ROOT_DOMAIN_PROD', 'pr6.uerj.br'),
+    'contact_email' => env('PR6_CONTACT_EMAIL', 'pr6@uerj.br'),
 
     'tenants' => [
         'pr6' => [

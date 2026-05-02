@@ -86,11 +86,12 @@ class LgpdController extends Controller
             'ip_hash' => hash('sha256', $request->ip()),
         ]);
 
-        // Notifica DPO
+        // Notificação por e-mail para a PR-6 (encaminha para DPO internamente)
         try {
-            Mail::to(config('mail.dpo_address', 'dpo@uerj.br'))->send(new DataSubjectRequestReceived($req));
+            Mail::to(config('pr6.contact_email', 'pr6@uerj.br'))
+                ->send(new DataSubjectRequestReceived($req));
         } catch (\Throwable $e) {
-            Log::error('Falha ao notificar DPO: ' . $e->getMessage());
+            Log::error('Falha ao enviar e-mail LGPD: ' . $e->getMessage());
         }
 
         return redirect()->route('lgpd.rights')->with('lgpd_submitted', true);
