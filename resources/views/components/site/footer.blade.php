@@ -7,7 +7,7 @@
 <footer class="footer" role="contentinfo">
     <div class="container footer__top">
         <div class="footer__brand">
-            <img src="{{ asset('assets/logo-pr6-branca.png') }}" alt="PR-6 · Pró-Reitoria de Planejamento e Gestão" class="footer__logo">
+            <img src="{{ asset('assets/logo-pr6-branca.png') }}" alt="PR-6 · Pró-Reitoria de Planejamento e Gestão" class="footer__logo" width="180" height="56" loading="lazy" decoding="async">
             <p>{{ $tenant->full_name }}. Universidade do Estado do Rio de Janeiro.</p>
         </div>
         <div class="footer__col">

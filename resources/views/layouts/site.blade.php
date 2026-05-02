@@ -35,9 +35,20 @@
 
     <meta name="theme-color" content="{{ $tenant && !$tenant->is_root ? $tenant->accent_color : '#B92828' }}">
     <link rel="icon" href="{{ asset('assets/logo-pr6-cor.png') }}" type="image/png">
+
+    {{-- DNS prefetch + preconnect para CDNs (acelera 1ª pintura) --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+    {{-- Preload da imagem do hero (LCP) --}}
+    @if(request()->is('/'))
+        <link rel="preload" as="image" href="{{ asset('assets/hero-back.png') }}" fetchpriority="high">
+    @endif
+
+    {{-- Fonts (display=swap pra evitar FOIT) --}}
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ asset('assets/site.css') }}?v=12">
     <link rel="stylesheet" href="{{ asset('assets/site-pages.css') }}?v=5">
     <link rel="stylesheet" href="{{ asset('assets/site-agenda-people.css') }}?v=1">
@@ -62,7 +73,7 @@
 <x-site.footer :tenant="$tenant" />
 <x-site.lgpd-banner />
 
-<script src="{{ asset('assets/site.js') }}?v=4"></script>
+<script src="{{ asset('assets/site.js') }}?v=4" defer></script>
 @stack('scripts')
 </body>
 </html>
