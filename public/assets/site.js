@@ -117,6 +117,31 @@
         }
     });
 
+    // Mobile drawer ----------------------------------------------------
+    const drawer = document.getElementById('mobile-drawer');
+    const menuToggle = document.getElementById('menu-toggle');
+    if (drawer && menuToggle) {
+        const openDrawer = () => {
+            drawer.removeAttribute('hidden');
+            menuToggle.setAttribute('aria-expanded', 'true');
+            menuToggle.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        };
+        const closeDrawer = () => {
+            drawer.setAttribute('hidden', '');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.classList.remove('is-open');
+            document.body.style.overflow = '';
+        };
+        menuToggle.addEventListener('click', () => {
+            drawer.hasAttribute('hidden') ? openDrawer() : closeDrawer();
+        });
+        drawer.querySelectorAll('[data-close-drawer]').forEach(el => el.addEventListener('click', closeDrawer));
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !drawer.hasAttribute('hidden')) closeDrawer();
+        });
+    }
+
     // Acessibilidade — A+/A-/contraste/sublinhar/fonte legível ---------
     const A11Y_KEY = 'pr6-a11y';
     const a11ySettings = (() => {

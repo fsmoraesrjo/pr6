@@ -56,6 +56,7 @@
     <link rel="stylesheet" href="{{ asset('assets/site-content.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-lgpd.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('assets/site-a11y.css') }}?v=1">
+    <link rel="stylesheet" href="{{ asset('assets/site-mobile.css') }}?v=1">
 
     {{-- JSON-LD: Organization + WebSite (todas as páginas) --}}
     @php

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ServiceRequestReceived;
 use App\Models\FormSubmission;
 use App\Models\Service;
+use App\Models\TeamMember;
 use App\Tenancy\TenantManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ServiceController extends Controller
 {
@@ -50,7 +54,7 @@ class ServiceController extends Controller
             'consent.accepted' => 'É necessário concordar com a Política de Privacidade.',
         ]);
 
-        FormSubmission::create([
+        $submission = FormSubmission::create([
             'tenant_id' => $manager->id(),
             'service_id' => $service->id,
             'form_type' => 'servico',
@@ -69,6 +73,25 @@ class ServiceController extends Controller
                 'user_agent' => substr((string) $request->userAgent(), 0, 240),
             ],
         ]);
+
+        // Notificar chefe da diretoria (titular da unidade raiz da diretoria)
+        try {
+            $recipient = $service->request_email
+                ?: TeamMember::query()
+                    ->where('tenant_id', $service->tenant_id)
+                    ->where('is_head', true)
+                    ->whereNotNull('email')
+                    ->orderBy('order')
+                    ->value('email');
+
+            if ($recipient) {
+                Mail::to($recipient)->send(new ServiceRequestReceived($submission, $service));
+            } else {
+                Log::warning("Sem destinatário para notificação de serviço #{$service->id}");
+            }
+        } catch (\Throwable $e) {
+            Log::error('Falha ao enviar e-mail de serviço: ' . $e->getMessage());
+        }
 
         return redirect()->route('services.show', $service->slug)
             ->with('service_submitted', true);

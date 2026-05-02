@@ -70,19 +70,67 @@
         </nav>
 
         <div class="header__tools">
-            <button type="button" class="icon-btn" aria-label="Buscar">
+            <a href="/buscar" class="icon-btn" aria-label="Buscar no portal">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            </button>
+            </a>
             <button type="button" class="icon-btn" id="theme-toggle" aria-label="Alternar tema">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="theme-icon-light"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
                 <svg viewBox="0 0 24 24" fill="currentColor" class="theme-icon-dark"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
             </button>
         </div>
 
-        <button class="menu-toggle" aria-label="Menu">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-drawer">
             <span></span><span></span><span></span>
         </button>
     </div>
 
     <x-site.portal-bar :current="$tenant" />
 </header>
+
+{{-- Drawer mobile --}}
+<aside class="mobile-drawer" id="mobile-drawer" aria-label="Menu mobile" hidden>
+    <div class="mobile-drawer__backdrop" data-close-drawer></div>
+    <nav class="mobile-drawer__panel" aria-label="Navegação mobile">
+        <header class="mobile-drawer__head">
+            <strong>{{ $tenant->short_name }}</strong>
+            <button type="button" class="mobile-drawer__close" data-close-drawer aria-label="Fechar menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+        </header>
+        <form action="/buscar" method="get" class="mobile-drawer__search">
+            <input type="search" name="q" placeholder="Buscar no portal..." aria-label="Buscar">
+            <button type="submit" aria-label="Buscar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </button>
+        </form>
+        <ul class="mobile-drawer__list">
+            <li><a href="/" class="{{ request()->is('/') ? 'is-active' : '' }}">Início</a></li>
+            <li><a href="/sobre" class="{{ request()->is('sobre*') ? 'is-active' : '' }}">Institucional</a></li>
+            <li class="mobile-drawer__group">
+                <span>Transparência</span>
+                <a href="/documentos">Documentos</a>
+                <a href="/agenda">Agenda</a>
+                <a href="/contratos">Contratos</a>
+                <a href="/indicadores">Painel de indicadores</a>
+                <a href="/pessoas">Pessoas</a>
+            </li>
+            <li><a href="/noticias" class="{{ request()->is('noticias*') ? 'is-active' : '' }}">Notícias</a></li>
+            @if(!$tenant->is_root)
+                <li><a href="/servicos" class="{{ request()->is('servicos*') ? 'is-active' : '' }}">Serviços</a></li>
+            @endif
+            <li><a href="/contato">Contato</a></li>
+        </ul>
+        <div class="mobile-drawer__footer">
+            <strong>Diretorias</strong>
+            <div class="mobile-drawer__verticals">
+                @foreach(\App\Models\Tenant::where('is_active', true)->where('is_root', false)->orderBy('order')->get() as $v)
+                    <a href="{{ $v->url() }}" style="--accent:{{ $v->accent_color }}">
+                        <span class="mobile-drawer__dot"></span>
+                        {{ $v->short_name }}
+                    </a>
+                @endforeach
+            </div>
+            <a href="/admin" class="mobile-drawer__admin">Acesso restrito</a>
+        </div>
+    </nav>
+</aside>

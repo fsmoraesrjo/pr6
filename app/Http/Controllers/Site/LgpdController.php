@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Mail\DataSubjectRequestReceived;
 use App\Models\ConsentLog;
 use App\Models\DataSubjectRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class LgpdController extends Controller
 {
@@ -72,7 +75,7 @@ class LgpdController extends Controller
             return back()->withErrors(['cpf' => 'CPF inválido. Verifique os números informados.'])->withInput();
         }
 
-        DataSubjectRequest::create([
+        $req = DataSubjectRequest::create([
             'requester_name' => $data['name'],
             'email_encrypted' => Crypt::encryptString($data['email']),
             'cpf_encrypted' => Crypt::encryptString($cpfDigits),
@@ -82,6 +85,13 @@ class LgpdController extends Controller
             'deadline_at' => Carbon::now()->addDays(15),
             'ip_hash' => hash('sha256', $request->ip()),
         ]);
+
+        // Notifica DPO
+        try {
+            Mail::to(config('mail.dpo_address', 'dpo@uerj.br'))->send(new DataSubjectRequestReceived($req));
+        } catch (\Throwable $e) {
+            Log::error('Falha ao notificar DPO: ' . $e->getMessage());
+        }
 
         return redirect()->route('lgpd.rights')->with('lgpd_submitted', true);
     }
