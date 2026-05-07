@@ -49,3 +49,45 @@ Arquivo mantido pela dupla de skills `/abrir` e `/fechar`. Cada sessão fechada 
 6. **Fase 5**: form Livewire de resposta em wizard 3 passos (equipamentos → destinos → trocas) com auto-save.
 7. **Fase 6**: `ConsolidacaoPage` no Filament com export PDF/XLSX e dashboard.
 8. **Decidir** se o repo PR6 será tornado privado e se o webhook Coolify vai ser configurado de forma permanente.
+
+---
+
+## Sessão 2026-05-07 18:19
+
+- **Máquina:** GAB-PREFEI02
+- **Branch:** main
+- **Commits desta sessão:** 1 (commit do próprio CONTEXT.md no fechamento)
+
+### O que foi feito
+
+- Repo `fsmoraesrjo/pr6` clonado em `C:\xampp\htdocs\pr6` (primeira vez nesta máquina).
+- Diagnóstico completo via skill `/abrir`: stack confirmada (Laravel 11 + Filament 3 + Vite + Tailwind), repo sincronizado com `origin/main` em `45e32f2`, ambiente local sem `vendor/`/`node_modules/`/`.env` — descartado como bloqueante porque runtime fica na VPS Hostinger (Coolify), não nesta máquina.
+- Skill `/novosistema` atualizada (3 trechos): seção "Deploy alvo" agora deixa inequívoco que **Coolify é self-hosted na VPS Hostinger 148.230.79.210** (não SaaS externo); webhook GitHub→Coolify marcado como obrigatório desde o dia 1; seção "Ambientes" descreve os 3 caminhos para disparar deploy quando webhook está ausente; `MD/05-DEPLOY.md` ganhou descrição expandida; nota nova na §10 sobre sincronização obrigatória de MDs com GitHub.
+- Skill `/fechar` atualizada: `CONTEXT.md` agora tem commit+push integrados ao ritual (etapas 5+6), não como passo opcional.
+- 3 memórias persistentes novas em `~/.claude/projects/C--/memory/`:
+  - `reference_infra_deploy.md` — registra Coolify+Hostinger como infra padrão.
+  - `feedback_xampp_explicit_only.md` — política de não tocar em `C:\xampp\` ou `Z:\xampp\` sem ordem explícita do usuário (escrita; leitura para diagnóstico OK).
+  - `feedback_md_sync_github.md` — política de sincronização de arquivos `.md` (cópia local E no GitHub sempre).
+- `MEMORY.md` (índice) atualizado com os três ponteiros novos.
+
+### Decisões técnicas tomadas
+
+- **Coolify É a VPS Hostinger** — ambos os termos referem a mesma infra (painel auto-hospedado em 148.230.79.210). Política agora documentada na skill e em memória persistente.
+- **Webhook GitHub→Coolify é requisito de dia 1** para todo projeto novo no padrão `/novosistema` — lição aprendida do PR6 (PR #1 mergeado mas container `mbbludqjhegvc5tn2uipa2q4` continua em `86edefa`).
+- **Política operacional combinada:** proatividade total fora de xampp + confirmação prévia para qualquer escrita em `C:\xampp\` ou `Z:\xampp\` (leitura livre para diagnóstico).
+- **Arquivos `.md` exigem cópia local E no GitHub sempre sincronizadas** — ciclo `add → commit → push` imediato após qualquer edição, justamente para preservar continuidade entre máquinas (`/abrir`+`/fechar` dependem disso).
+
+### Pontos em aberto
+
+- **Container Coolify PR-6 (`mbbludqjhegvc5tn2uipa2q4`) ainda em `86edefa`** — não pegou o merge da Fase 1 (`45e32f2`). Webhook continua ausente.
+- **Repo `fsmoraesrjo/pr6` ainda público** — pendente de tornar privado.
+- **MariaDB local irrelevante por ora** (runtime é na VPS), mas será necessário se quiser desenvolvimento local nesta máquina.
+- **Sem CI** no repo PR6.
+
+### Próximos passos
+
+1. Escolher caminho para fazer o container Coolify pegar o commit `45e32f2`: (a) deploy manual no painel, (b) Deploy Webhook URL via `curl`, (c) configurar webhook GitHub→Coolify permanente.
+2. Após deploy: rodar `php artisan migrate` + `db:seed --class=Database\Seeders\Compras\EquipamentoSeeder` no container e validar 9 tabelas + 20 equipamentos.
+3. Iniciar **Fase 2**: permissões Spatie (`compras.admin/view/respond`) + NavigationGroup "Planejamento de Aquisições" no `AdminPanelProvider` + `RespondenteResource`.
+4. Decidir tornar repo PR6 privado.
+5. Configurar CI mínimo (`php artisan test` em PR).
